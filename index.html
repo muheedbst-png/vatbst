@@ -1,3 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Baniyas Spike Trading Company VAT Calculation Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; }
+        #form-content {
+            background: #fff; margin: 40px auto 20px auto; padding: 18px 16px 10px 16px; max-width: 700px; border-radius: 8px; box-shadow: 0px 2px 16px #bbb7; }
+        h2 { text-align: center; margin-bottom: 10px; font-size: 1.13em; letter-spacing: .5px; }
+        .dropdown-area { display: flex; justify-content: center; align-items: center; margin: 7px 0 15px 0; }
+        .dropdown-area label { font-weight: bold; margin-right: 8px; }
+        .dropdown-area select { padding: 4px; min-width: 134px; }
+        table {
+            width: 100%; margin: 0 auto 0 auto; border-collapse: collapse; font-size: 0.99em;
+        }
+        th, td { border: 1px solid #333; padding: 4px 5px; text-align: left; }
+        th { background-color: #bbb; text-align: center; font-size: 0.99em; }
+        .section { background: #eee !important; font-weight: bold; }
+        .input-cell input {
+            width: 61px; padding: 2px; font-size: 0.98em; text-align: right; background: #d8e7ef; border: 1.2px solid #87a9bf; border-radius: 3px;
+        }
+        .name-cell input { width: 115px; padding: 2px 5px; font-size: 0.97em; }
+        .calc-cell { background: #f3cccc; font-weight: bold; text-align: right; }
+        .empty-cell { background: #fff !important; }
+        .grey { background: #eaeaea !important; }
+        .footer-bar {
+            background: #aaa; padding: 5px 9px; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; color: #222; margin-top: 11px; border-radius: 0 0 5px 5px;
+        }
+        .submit-area { text-align: center; margin: 17px 0 1px 0; }
+        .print-buttons-container { text-align: center; }
+        .print-buttons-container button {
+            font-size: 1.1em;
+            padding: 8px 18px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { background: #fff; }
+            #form-content { box-shadow: none; max-width: 100%; margin: 0; padding: 0; }
+            .submit-area, #success-message { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div id="form-content">
+<h2>BANIYAS SPIKE TRADING COMPANY VAT CALCULATION FORM</h2>
+<div class="dropdown-area">
+    <label for="branch-name">Branch Name:</label>
+    <select id="branch-name">
+        <option>BST HO</option>
+        <option>BST 42</option>
+        <option>COS</option>
+        <option>FRZ</option>
+        <option>ERP HO</option>
+        <option>BSS AL AIN</option>
+        <option>EXPRESS</option>
+        <option>GSS -14</option>
+        <option>RAK SM</option>
+        <option>BSS ICAD</option>
+        <option>MESS</option>
+        <option>BSS 12</option>
+        <option>BSS 11</option>
+        <option>UAQ SM</option>
+        <option>BSS AJMAN SM</option>
+        <option>46 BRANCH</option>
+        <option>48 JABEL ALI</option>
+        <option>40 PACKING DIV</option>
+        <option selected>NEW ROSE</option>
+    </select>
+</div>
+<table>
+    <tr>
+        <th>S.NO</th>
+        <th>DESCRIPTION</th>
+        <th>AMOUNT <br><span style="font-weight:normal;font-size:90%;">(Each item)</span></th>
+        <th>TOTAL AMOUNT <br><span style="font-weight:normal;font-size:90%;">(Calculated at key stages)</span></th>
+    </tr>
+    <tr><td>1</td> <td class="section">SALES</td>
+        <td class="input-cell"><input type="number" id="sales" oninput="calc()"></td>
+        <td class="calc-cell" id="total-sales"></td></tr>
+    <tr><td class="grey" colspan="4"></td></tr>
+    <tr><td></td> <td>LESS: INTER BRANCH SALE</td>
+        <td class="input-cell"><input type="number" id="inter-branch-sale" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>LESS: VAT EXEMPTED SALE (CARD)</td>
+        <td class="input-cell"><input type="number" id="vat-ex-card" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>LESS: VAT EXEMPTED SALE (OTHERS)</td>
+        <td class="input-cell"><input type="number" id="vat-ex-other" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">VATABLE SALES</td>
+        <td></td>
+        <td class="calc-cell" id="total-vatable-sales"></td></tr>
+    <tr><td></td> <td>5% VAT ON VATABLE SALES (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="vat-on-vatable-sales"></td></tr>
+    <tr><td></td> <td>OUTPUT VAT AS PER SYSTEM (Manual Entry)</td>
+        <td class="input-cell"><input type="number" id="system-output-vat" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>OUTPUT VAT DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="output-vat-difference"></td></tr>
+    <tr><td></td> <td>SALE AMOUNT AS PER DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="amount-as-per-diff-output-vat"></td></tr>
+    <tr><td></td> <td class="section">OUTPUT VAT</td>
+        <td></td>
+        <td class="calc-cell" id="total-output-vat"></td></tr>
+    <tr><td colspan="4" class="grey"></td></tr>
+    <tr><td>2</td> <td class="section">PURCHASE</td>
+        <td class="input-cell"><input type="number" id="purchase" oninput="calc()"></td>
+        <td class="calc-cell" id="total-purchase"></td></tr>
+    <tr><td></td><td>LESS PURCHASE RETURN</td>
+        <td class="input-cell"><input type="number" id="purchase-return" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">NET PURCHASE</td>
+        <td></td>
+        <td class="calc-cell" id="total-net-purchase"></td></tr>
+    <tr><td></td><td>LESS: TELE CARD PURCHASE</td>
+        <td class="input-cell"><input type="number" id="telecard" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: INTER BRANCH PURCHASE</td>
+        <td class="input-cell"><input type="number" id="inter-branch-purch" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: IMPORT</td>
+        <td class="input-cell"><input type="number" id="import" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: UNREGISTERED PURCHASE</td>
+        <td class="input-cell"><input type="number" id="unreg-purchase" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">AFTER LESS</td>
+        <td></td>
+        <td class="calc-cell" id="total-after-less"></td></tr>
+    <tr><td></td> <td>5% VAT ON NET PURCHASE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="vat-on-net-purchase"></td></tr>
+    <tr><td></td> <td>INPUT VAT AS PER SYSTEM (Manual Entry)</td>
+        <td class="input-cell"><input type="number" id="system-input-vat" oninput="calc()"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>INPUT VAT DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="input-vat-difference"></td></tr>
+    <tr><td></td> <td>PURCHASE AMOUNT AS PER DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="amount-as-per-diff-input-vat"></td></tr>
+    <tr><td></td> <td class="section">INPUT VAT</td>
+        <td></td>
+        <td class="calc-cell" id="total-input-vat"></td></tr>
+    <tr><td colspan="4" class="grey"></td></tr>
+    <tr>
+        <td></td>
+        <td>OUTPUT VAT (SALES)</td>
+        <td></td>
+        <td class="calc-cell" id="out-vat-sales"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>INPUT VAT (PURCHASE)</td>
+        <td></td>
+        <td class="calc-cell" id="in-vat-purch"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>INPUT VAT ON EXPENSE</td>
+        <td class="input-cell"><input type="number" id="input-vat-exp" oninput="calc()"></td>
+        <td class="calc-cell" id="in-vat-exp"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="section">VAT PAYABLE</td>
+        <td></td>
+        <td class="calc-cell" id="vat-payable"></td>
+    </tr>
+</table>
+<div class="footer-bar">
+    <div id="date-time"></div>
+    <div class="name-cell">Prepared By: <input id="prepared-by" placeholder="Enter name" oninput="calc()" /></div>
+</div>
+</div>
+<div class="submit-area">
+    <button id="submitSheetBtn" type="button" style="font-size:1.07em;padding:7px 26px;border-radius:6px;background:#143e6f;color:#fff;border:none;cursor:pointer;">Submit</button>
+</div>
+<div id="success-message" style="display:none;margin-top:20px;">
+  <div id="print-summary">
+    <h3>Submission Successful</h3>
+    <p><em>Keep this printout for your branch records.</em></p>
+    <div class="print-buttons-container">
+        <button onclick="window.print()" style="background:#4CAF50; color: white; border: none; border-radius: 4px;">Print this record</button>
+        <button id="download-csv" onclick="downloadCSV()" style="background:#2196F3; color: white; border: none; border-radius: 4px;">Download CSV</button>
+        <button onclick="newSubmission()" style="background:#007BFF; color: white; border: none; border-radius: 4px;">New Submission</button>
+    </div>
+  </div>
+</div>
 <script>
     function format(n) {
         if(isNaN(n) || n==="") return "";
@@ -217,3 +411,5 @@
         calc();
     }
 </script>
+</body>
+</html>
