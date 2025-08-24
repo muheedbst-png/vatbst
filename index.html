@@ -77,17 +77,17 @@
         <th>TOTAL AMOUNT <br><span style="font-weight:normal;font-size:90%;">(Calculated at key stages)</span></th>
     </tr>
     <tr><td>1</td> <td class="section">SALES</td>
-        <td class="input-cell"><input type="number" id="sales"></td>
+        <td class="input-cell"><input type="number" id="sales" oninput="calc()"></td>
         <td class="calc-cell" id="total-sales"></td></tr>
     <tr><td class="grey" colspan="4"></td></tr>
     <tr><td></td> <td>LESS: INTER BRANCH SALE</td>
-        <td class="input-cell"><input type="number" id="inter-branch-sale"></td>
+        <td class="input-cell"><input type="number" id="inter-branch-sale" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td> <td>LESS: VAT EXEMPTED SALE (CARD)</td>
-        <td class="input-cell"><input type="number" id="vat-ex-card"></td>
+        <td class="input-cell"><input type="number" id="vat-ex-card" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td> <td>LESS: VAT EXEMPTED SALE (OTHERS)</td>
-        <td class="input-cell"><input type="number" id="vat-ex-other"></td>
+        <td class="input-cell"><input type="number" id="vat-ex-other" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td class="section">VATABLE SALES</td>
         <td></td>
@@ -96,7 +96,7 @@
         <td></td>
         <td class="calc-cell" id="vat-on-vatable-sales"></td></tr>
     <tr><td></td> <td>OUTPUT VAT AS PER SYSTEM (Manual Entry)</td>
-        <td class="input-cell"><input type="number" id="system-output-vat"></td>
+        <td class="input-cell"><input type="number" id="system-output-vat" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td> <td>OUTPUT VAT DIFFERENCE (Auto)</td>
         <td></td>
@@ -109,25 +109,25 @@
         <td class="calc-cell" id="total-output-vat"></td></tr>
     <tr><td colspan="4" class="grey"></td></tr>
     <tr><td>2</td> <td class="section">PURCHASE</td>
-        <td class="input-cell"><input type="number" id="purchase"></td>
+        <td class="input-cell"><input type="number" id="purchase" oninput="calc()"></td>
         <td class="calc-cell" id="total-purchase"></td></tr>
     <tr><td></td><td>LESS PURCHASE RETURN</td>
-        <td class="input-cell"><input type="number" id="purchase-return"></td>
+        <td class="input-cell"><input type="number" id="purchase-return" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td class="section">NET PURCHASE</td>
         <td></td>
         <td class="calc-cell" id="total-net-purchase"></td></tr>
     <tr><td></td><td>LESS: TELE CARD PURCHASE</td>
-        <td class="input-cell"><input type="number" id="telecard"></td>
+        <td class="input-cell"><input type="number" id="telecard" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td>LESS: INTER BRANCH PURCHASE</td>
-        <td class="input-cell"><input type="number" id="inter-branch-purch"></td>
+        <td class="input-cell"><input type="number" id="inter-branch-purch" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td>LESS: IMPORT</td>
-        <td class="input-cell"><input type="number" id="import"></td>
+        <td class="input-cell"><input type="number" id="import" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td>LESS: UNREGISTERED PURCHASE</td>
-        <td class="input-cell"><input type="number" id="unreg-purchase"></td>
+        <td class="input-cell"><input type="number" id="unreg-purchase" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td><td class="section">AFTER LESS</td>
         <td></td>
@@ -136,7 +136,7 @@
         <td></td>
         <td class="calc-cell" id="vat-on-net-purchase"></td></tr>
     <tr><td></td> <td>INPUT VAT AS PER SYSTEM (Manual Entry)</td>
-        <td class="input-cell"><input type="number" id="system-input-vat"></td>
+        <td class="input-cell"><input type="number" id="system-input-vat" oninput="calc()"></td>
         <td class="empty-cell"></td></tr>
     <tr><td></td> <td>INPUT VAT DIFFERENCE (Auto)</td>
         <td></td>
@@ -163,7 +163,7 @@
     <tr>
         <td></td>
         <td>INPUT VAT ON EXPENSE</td>
-        <td class="input-cell"><input type="number" id="input-vat-exp"></td>
+        <td class="input-cell"><input type="number" id="input-vat-exp" oninput="calc()"></td>
         <td class="calc-cell" id="in-vat-exp"></td>
     </tr>
     <tr>
@@ -175,7 +175,7 @@
 </table>
 <div class="footer-bar">
     <div id="date-time"></div>
-    <div class="name-cell">Prepared By: <input id="prepared-by" placeholder="Enter name" /></div>
+    <div class="name-cell">Prepared By: <input id="prepared-by" placeholder="Enter name" oninput="calc()" /></div>
 </div>
 </div>
 <div class="submit-area">
@@ -359,4 +359,57 @@
             "Sale Amount as per Difference": document.getElementById('amount-as-per-diff-output-vat').textContent,
             "Total Output VAT": document.getElementById('total-output-vat').textContent,
             "Purchase": document.getElementById('purchase').value,
-            "Purchase Return": document.getElementById('
+            "Purchase Return": document.getElementById('purchase-return').value,
+            "Tele Card Purchase": document.getElementById('telecard').value,
+            "Inter-Branch Purchase": document.getElementById('inter-branch-purch').value,
+            "Import": document.getElementById('import').value,
+            "Unregistered Purchase": document.getElementById('unreg-purchase').value,
+            "Net Purchase": document.getElementById('total-net-purchase').textContent,
+            "After Less": document.getElementById('total-after-less').textContent,
+            "VAT on Net Purchase": document.getElementById('vat-on-net-purchase').textContent,
+            "Input VAT as per System": document.getElementById('system-input-vat').value,
+            "Input VAT Difference": document.getElementById('input-vat-difference').textContent,
+            "Purchase Amount as per Difference": document.getElementById('amount-as-per-diff-input-vat').textContent,
+            "Total Input VAT": document.getElementById('total-input-vat').textContent,
+            "Input VAT on Expense": document.getElementById('input-vat-exp').value,
+            "Output VAT (Sales)": document.getElementById('out-vat-sales').textContent,
+            "Input VAT (Purchase)": document.getElementById('in-vat-purch').textContent,
+            "Input VAT (Expense)": document.getElementById('in-vat-exp').textContent,
+            "VAT Payable": document.getElementById('vat-payable').textContent,
+            "Prepared By": document.getElementById('prepared-by').value
+        };
+
+        let csv = "Particulars,Amount\n";
+        for (const key in data) {
+            const value = data[key] ? data[key].replace(/"/g, '""') : '';
+            csv += `"${key}","${value}"\n`;
+        }
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "vat-submission.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    function newSubmission() {
+        // Show the form and hide the success message
+        document.querySelector('.submit-area').style.display = 'block';
+        document.getElementById('success-message').style.display = 'none';
+
+        // Reset all input fields
+        document.querySelectorAll('input, select').forEach(el => {
+            if (el.id !== 'branch-name') { // Keep the branch name selected
+                el.value = "";
+            }
+            el.disabled = false;
+        });
+
+        // Recalculate to clear all values in the calc-cells
+        calc();
+    }
+</script>
+</body>
+</html>
