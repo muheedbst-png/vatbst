@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Baniyas Spike Trading Company VAT Calculation Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; }
+        #form-content {
+            background: #fff; margin: 40px auto 20px auto; padding: 18px 16px 10px 16px; max-width: 700px; border-radius: 8px; box-shadow: 0px 2px 16px #bbb7; }
+        h2 { text-align: center; margin-bottom: 10px; font-size: 1.13em; letter-spacing: .5px; }
+        .dropdown-area { display: flex; justify-content: center; align-items: center; margin: 7px 0 15px 0; }
+        .dropdown-area label { font-weight: bold; margin-right: 8px; }
+        .dropdown-area select { padding: 4px; min-width: 134px; }
+        table {
+            width: 100%; margin: 0 auto 0 auto; border-collapse: collapse; font-size: 0.99em;
+        }
+        th, td { border: 1px solid #333; padding: 4px 5px; text-align: left; }
+        th { background-color: #bbb; text-align: center; font-size: 0.99em; }
+        .section { background: #eee !important; font-weight: bold; }
+        .input-cell input {
+            width: 61px; padding: 2px; font-size: 0.98em; text-align: right; background: #d8e7ef; border: 1.2px solid #87a9bf; border-radius: 3px;
+        }
+        .name-cell input { width: 115px; padding: 2px 5px; font-size: 0.97em; }
+        .calc-cell { background: #f3cccc; font-weight: bold; text-align: right; }
+        .empty-cell { background: #fff !important; }
+        .grey { background: #eaeaea !important; }
+        .footer-bar {
+            background: #aaa; padding: 5px 9px; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; color: #222; margin-top: 11px; border-radius: 0 0 5px 5px;
+        }
+        .submit-area { text-align: center; margin: 17px 0 1px 0; }
+        .print-buttons-container { text-align: center; }
+        .print-buttons-container button {
+            font-size: 1.1em;
+            padding: 8px 18px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { background: #fff; }
+            #form-content { box-shadow: none; max-width: 100%; margin: 0; padding: 0; }
+            .submit-area, #success-message { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div id="form-content">
+<h2>BANIYAS SPIKE TRADING COMPANY VAT CALCULATION FORM</h2>
+<div class="dropdown-area">
+    <label for="branch-name">Branch Name:</label>
+    <select id="branch-name">
+        <option>BST HO</option>
+        <option>BST 42</option>
+        <option>COS</option>
+        <option>FRZ</option>
+        <option>ERP HO</option>
+        <option>BSS AL AIN</option>
+        <option>EXPRESS</option>
+        <option>GSS -14</option>
+        <option>RAK SM</option>
+        <option>BSS ICAD</option>
+        <option>MESS</option>
+        <option>BSS 12</option>
+        <option>BSS 11</option>
+        <option>UAQ SM</option>
+        <option>BSS AJMAN SM</option>
+        <option>46 BRANCH</option>
+        <option>48 JABEL ALI</option>
+        <option>40 PACKING DIV</option>
+        <option selected>NEW ROSE</option>
+    </select>
+</div>
+<table>
+    <tr>
+        <th>S.NO</th>
+        <th>DESCRIPTION</th>
+        <th>AMOUNT <br><span style="font-weight:normal;font-size:90%;">(Each item)</span></th>
+        <th>TOTAL AMOUNT <br><span style="font-weight:normal;font-size:90%;">(Calculated at key stages)</span></th>
+    </tr>
+    <tr><td>1</td> <td class="section">SALES</td>
+        <td class="input-cell"><input type="number" id="sales"></td>
+        <td class="calc-cell" id="total-sales"></td></tr>
+    <tr><td class="grey" colspan="4"></td></tr>
+    <tr><td></td> <td>LESS: INTER BRANCH SALE</td>
+        <td class="input-cell"><input type="number" id="inter-branch-sale"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>LESS: VAT EXEMPTED SALE (CARD)</td>
+        <td class="input-cell"><input type="number" id="vat-ex-card"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>LESS: VAT EXEMPTED SALE (OTHERS)</td>
+        <td class="input-cell"><input type="number" id="vat-ex-other"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">VATABLE SALES</td>
+        <td></td>
+        <td class="calc-cell" id="total-vatable-sales"></td></tr>
+    <tr><td></td> <td>5% VAT ON VATABLE SALES (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="vat-on-vatable-sales"></td></tr>
+    <tr><td></td> <td>OUTPUT VAT AS PER SYSTEM (Manual Entry)</td>
+        <td class="input-cell"><input type="number" id="system-output-vat"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>OUTPUT VAT DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="output-vat-difference"></td></tr>
+    <tr><td></td> <td>SALE AMOUNT AS PER DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="amount-as-per-diff-output-vat"></td></tr>
+    <tr><td></td> <td class="section">OUTPUT VAT</td>
+        <td></td>
+        <td class="calc-cell" id="total-output-vat"></td></tr>
+    <tr><td colspan="4" class="grey"></td></tr>
+    <tr><td>2</td> <td class="section">PURCHASE</td>
+        <td class="input-cell"><input type="number" id="purchase"></td>
+        <td class="calc-cell" id="total-purchase"></td></tr>
+    <tr><td></td><td>LESS PURCHASE RETURN</td>
+        <td class="input-cell"><input type="number" id="purchase-return"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">NET PURCHASE</td>
+        <td></td>
+        <td class="calc-cell" id="total-net-purchase"></td></tr>
+    <tr><td></td><td>LESS: TELE CARD PURCHASE</td>
+        <td class="input-cell"><input type="number" id="telecard"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: INTER BRANCH PURCHASE</td>
+        <td class="input-cell"><input type="number" id="inter-branch-purch"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: IMPORT</td>
+        <td class="input-cell"><input type="number" id="import"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td>LESS: UNREGISTERED PURCHASE</td>
+        <td class="input-cell"><input type="number" id="unreg-purchase"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td><td class="section">AFTER LESS</td>
+        <td></td>
+        <td class="calc-cell" id="total-after-less"></td></tr>
+    <tr><td></td> <td>5% VAT ON NET PURCHASE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="vat-on-net-purchase"></td></tr>
+    <tr><td></td> <td>INPUT VAT AS PER SYSTEM (Manual Entry)</td>
+        <td class="input-cell"><input type="number" id="system-input-vat"></td>
+        <td class="empty-cell"></td></tr>
+    <tr><td></td> <td>INPUT VAT DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="input-vat-difference"></td></tr>
+    <tr><td></td> <td>PURCHASE AMOUNT AS PER DIFFERENCE (Auto)</td>
+        <td></td>
+        <td class="calc-cell" id="amount-as-per-diff-input-vat"></td></tr>
+    <tr><td></td> <td class="section">INPUT VAT</td>
+        <td></td>
+        <td class="calc-cell" id="total-input-vat"></td></tr>
+    <tr><td colspan="4" class="grey"></td></tr>
+    <tr>
+        <td></td>
+        <td>OUTPUT VAT (SALES)</td>
+        <td></td>
+        <td class="calc-cell" id="out-vat-sales"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>INPUT VAT (PURCHASE)</td>
+        <td></td>
+        <td class="calc-cell" id="in-vat-purch"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>INPUT VAT ON EXPENSE</td>
+        <td class="input-cell"><input type="number" id="input-vat-exp"></td>
+        <td class="calc-cell" id="in-vat-exp"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="section">VAT PAYABLE</td>
+        <td></td>
+        <td class="calc-cell" id="vat-payable"></td>
+    </tr>
+</table>
+<div class="footer-bar">
+    <div id="date-time"></div>
+    <div class="name-cell">Prepared By: <input id="prepared-by" placeholder="Enter name" /></div>
+</div>
+</div>
+<div class="submit-area">
+    <button id="submitSheetBtn" type="button" style="font-size:1.07em;padding:7px 26px;border-radius:6px;background:#143e6f;color:#fff;border:none;cursor:pointer;">Submit</button>
+</div>
+<div id="success-message" style="display:none;margin-top:20px;">
+  <div id="print-summary">
+    <h3>Submission Successful</h3>
+    <p><em>Keep this printout for your branch records.</em></p>
+    <div class="print-buttons-container">
+        <button onclick="window.print()" style="background:#4CAF50; color: white; border: none; border-radius: 4px;">Print this record</button>
+        <button id="download-csv" onclick="downloadCSV()" style="background:#2196F3; color: white; border: none; border-radius: 4px;">Download CSV</button>
+        <button onclick="newSubmission()" style="background:#007BFF; color: white; border: none; border-radius: 4px;">New Submission</button>
+    </div>
+  </div>
+</div>
+<script>
+    function format(n) {
+        if(isNaN(n) || n==="") return "";
+        return parseFloat(n).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+    function calc() {
+        var sales = +document.getElementById('sales').value || 0;
+        var ibs = +document.getElementById('inter-branch-sale').value || 0;
+        var excard = +document.getElementById('vat-ex-card').value || 0;
+        var exoth = +document.getElementById('vat-ex-other').value || 0;
+        var vatable_sales = sales - ibs - excard - exoth;
+        var vat_sale = vatable_sales * 0.05;
+        var sys_output_vat = +document.getElementById('system-output-vat').value || 0;
+        var output_vat_diff = vat_sale - sys_output_vat;
+        var amount_as_per_diff_output = output_vat_diff / 0.05;
+        var purchase = +document.getElementById('purchase').value || 0;
+        var purch_ret = +document.getElementById('purchase-return').value || 0;
+        var netpurch = purchase - purch_ret;
+        var telecard = +document.getElementById('telecard').value || 0;
+        var ibpurch = +document.getElementById('inter-branch-purch').value || 0;
+        var imprt = +document.getElementById('import').value || 0;
+        var unreg = +document.getElementById('unreg-purchase').value || 0;
+        var after_less = netpurch - telecard - ibpurch - imprt - unreg;
+        var vat_purch = after_less * 0.05;
+        var sys_input_vat = +document.getElementById('system-input-vat').value || 0;
+        var input_vat_diff = vat_purch - sys_input_vat;
+        var amount_as_per_diff_input = input_vat_diff / 0.05;
+        var input_vat_exp = +document.getElementById('input-vat-exp').value || 0;
+
+        document.getElementById('total-sales').textContent = sales ? format(sales) : "";
+        document.getElementById('total-vatable-sales').textContent = (sales || ibs || excard || exoth) ? format(vatable_sales) : "";
+        document.getElementById('vat-on-vatable-sales').textContent = vatable_sales ? format(vat_sale) : "";
+        document.getElementById('output-vat-difference').textContent = (vat_sale || sys_output_vat) ? format(output_vat_diff) : "";
+        document.getElementById('amount-as-per-diff-output-vat').textContent = output_vat_diff ? format(amount_as_per_diff_output) : "";
+        document.getElementById('total-output-vat').textContent = (vatable_sales) ? format(vat_sale) : "";
+        document.getElementById('total-purchase').textContent = purchase ? format(purchase) : "";
+        document.getElementById('total-net-purchase').textContent = (purchase || purch_ret) ? format(netpurch) : "";
+        document.getElementById('total-after-less').textContent = (purchase || purch_ret || telecard || ibpurch || imprt || unreg) ? format(after_less) : "";
+        document.getElementById('vat-on-net-purchase').textContent = after_less ? format(vat_purch) : "";
+        document.getElementById('input-vat-difference').textContent = (vat_purch || sys_input_vat) ? format(input_vat_diff) : "";
+        document.getElementById('amount-as-per-diff-input-vat').textContent = input_vat_diff ? format(amount_as_per_diff_input) : "";
+        document.getElementById('total-input-vat').textContent = after_less ? format(vat_purch) : "";
+        document.getElementById('out-vat-sales').textContent = (vatable_sales) ? format(vat_sale) : "";
+        document.getElementById('in-vat-purch').textContent = after_less ? format(vat_purch) : "";
+        document.getElementById('in-vat-exp').textContent = input_vat_exp ? format(input_vat_exp) : "";
+        var vat_payable = vat_sale - vat_purch - input_vat_exp;
+        document.getElementById('vat-payable').textContent = (vatable_sales || after_less || input_vat_exp) ? format(vat_payable) : "";
+        var now = new Date();
+        var day = String(now.getDate()).padStart(2, '0');
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var year = now.getFullYear();
+        var hour = String(now.getHours()).padStart(2, '0');
+        var minute = String(now.getMinutes()).padStart(2, '0');
+        var second = String(now.getSeconds()).padStart(2, '0');
+        var datetime = `${day}/${month}/${year} ${hour}:${minute}:${second}`;
+        document.getElementById('date-time').textContent = datetime;
+    }
+
+    function populateForm(data) {
+        document.getElementById('branch-name').value = data.branch;
+        document.getElementById('prepared-by').value = data.prepared_by;
+        document.getElementById('sales').value = data.sales;
+        document.getElementById('inter-branch-sale').value = data.inter_branch_sale;
+        document.getElementById('vat-ex-card').value = data.vat_ex_card;
+        document.getElementById('vat-ex-other').value = data.vat_ex_other;
+        document.getElementById('system-output-vat').value = data.system_output_vat;
+        document.getElementById('purchase').value = data.purchase;
+        document.getElementById('purchase-return').value = data.purchase_return;
+        document.getElementById('telecard').value = data.telecard;
+        document.getElementById('inter-branch-purch').value = data.inter_branch_purch;
+        document.getElementById('import').value = data.import;
+        document.getElementById('unreg-purchase').value = data.unreg_purchase;
+        document.getElementById('system-input-vat').value = data.system_input_vat;
+        document.getElementById('input-vat-exp').value = data.input_vat_exp;
+
+        // Disable all inputs
+        document.querySelectorAll('input, select').forEach(el => {
+            el.disabled = true;
+        });
+
+        // Re-calculate to show final values
+        calc();
+    }
+    
+    window.onload = function() {
+        if(window.location.search) {
+            // This is a placeholder for future functionality if you pass data via URL
+            // For now, it will simply run the calc function.
+        } else {
+            calc();
+            setInterval(calc, 1500);
+        }
+    };
+    
+    document.getElementById('submitSheetBtn').onclick = function(e) {
+        e.preventDefault();
+        calc();
+        function gatherVATFormData() {
+            try {
+                return {
+                    "Branch": document.getElementById('branch-name').value,
+                    "Period": document.getElementById('date-time').textContent,
+                    "Sales": document.getElementById('sales').value,
+                    "Inter-Branch Sale": document.getElementById('inter-branch-sale').value,
+                    "VAT Exempted Sale (CARD)": document.getElementById('vat-ex-card').value,
+                    "VAT Exempted Sale (OTHERS)": document.getElementById('vat-ex-other').value,
+                    "Vatable Sales": document.getElementById('total-vatable-sales').textContent,
+                    "VAT on Vatable Sales": document.getElementById('vat-on-vatable-sales').textContent,
+                    "Output VAT as per System": document.getElementById('system-output-vat').value,
+                    "Output VAT Difference": document.getElementById('output-vat-difference').textContent,
+                    "Sale Amount as per Difference": document.getElementById('amount-as-per-diff-output-vat').textContent,
+                    "Total Output VAT": document.getElementById('total-output-vat').textContent,
+                    "Purchase": document.getElementById('purchase').value,
+                    "Purchase Return": document.getElementById('purchase-return').value,
+                    "Tele Card Purchase": document.getElementById('telecard').value,
+                    "Inter-Branch Purchase": document.getElementById('inter-branch-purch').value,
+                    "Import": document.getElementById('import').value,
+                    "Unregistered Purchase": document.getElementById('unreg-purchase').value,
+                    "Net Purchase": document.getElementById('total-net-purchase').textContent,
+                    "After Less": document.getElementById('total-after-less').textContent,
+                    "VAT on Net Purchase": document.getElementById('vat-on-net-purchase').textContent,
+                    "Input VAT as per System": document.getElementById('system-input-vat').value,
+                    "Input VAT Difference": document.getElementById('input-vat-difference').textContent,
+                    "Purchase Amount as per Difference": document.getElementById('amount-as-per-diff-input-vat').textContent,
+                    "Total Input VAT": document.getElementById('total-input-vat').textContent,
+                    "Input VAT on Expense": document.getElementById('input-vat-exp').value,
+                    "Output VAT (Sales)": document.getElementById('out-vat-sales').textContent,
+                    "Input VAT (Purchase)": document.getElementById('in-vat-purch').textContent,
+                    "Input VAT (Expense)": document.getElementById('in-vat-exp').textContent,
+                    "VAT Payable": document.getElementById('vat-payable').textContent,
+                    "Prepared By": document.getElementById('prepared-by').value
+                };
+            } catch(e) {
+                alert("A field referenced in the script does not exist in your HTML.\nError: " + e.message);
+                throw e;
+            }
+        }
+        const data = gatherVATFormData();
+        fetch('https://script.google.com/macros/s/AKfycby3C6SUFGeQ93dSImHcsFKji1Ptjty2rvCcANO-9l5vfL-S_lwXYwhRqTMW2pVOvAkX/exec', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(res => res.text())
+        .then(resp => {
+            document.querySelector('.submit-area').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            populateForm(data);
+        })
+        .catch(() => alert('Submission failed. Please check your network and try again.'));
+    };
+
+    function downloadCSV() {
+        const data = {
+            "Branch": document.getElementById('branch-name').value,
+            "Period": document.getElementById('date-time').textContent,
+            "Sales": document.getElementById('sales').value,
+            "Inter-Branch Sale": document.getElementById('inter-branch-sale').value,
+            "VAT Exempted Sale (CARD)": document.getElementById('vat-ex-card').value,
+            "VAT Exempted Sale (OTHERS)": document.getElementById('vat-ex-other').value,
+            "Vatable Sales": document.getElementById('total-vatable-sales').textContent,
+            "VAT on Vatable Sales": document.getElementById('vat-on-vatable-sales').textContent,
+            "Output VAT as per System": document.getElementById('system-output-vat').value,
+            "Output VAT Difference": document.getElementById('output-vat-difference').textContent,
+            "Sale Amount as per Difference": document.getElementById('amount-as-per-diff-output-vat').textContent,
+            "Total Output VAT": document.getElementById('total-output-vat').textContent,
+            "Purchase": document.getElementById('purchase').value,
+            "Purchase Return": document.getElementById('
